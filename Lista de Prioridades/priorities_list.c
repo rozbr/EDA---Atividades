@@ -1,4 +1,13 @@
 
+/*
+    Implemente os algoritmos sobre operações básicas em uma Lista de Prioridades.
+    Utilize um menu para que o usário escolha uma das seguintes opções:
+        - Inserir elemento
+        - Remover elemento
+        - Exibir elementos
+        - Finalizar execução
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
