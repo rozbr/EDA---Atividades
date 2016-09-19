@@ -17,7 +17,7 @@ node_t* init_node(int info) {
 		return node;
 	}
 	
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 node_t** generate(int *elements, int count) {
@@ -80,6 +80,41 @@ node_t* get_src_node(node_t **sets, int count, int src) {
 	return NULL;
 }
 
+int connected_components(node_t **sets, int count) {
+	int *roots, *unique_roots, *unique_roots_flag;
+	int i, j, unique_roots_size = 1, components = 0;
+	
+	roots = malloc(sizeof(int) * count);
+	unique_roots = malloc(sizeof(int));
+	
+	roots[0] = unique_roots[0] = search(sets[0]);
+	
+	for (i = 1; i < count; i++)
+	    roots[i] = search(sets[i]);
+	    
+    for (i = 0; i < count; i++)
+        for (j = 0; j < unique_roots_size; j++) {
+            if (roots[i] == unique_roots[j])
+                break;
+                
+            unique_roots = realloc(unique_roots, sizeof(int) * (unique_roots_size + 1));
+            unique_roots[unique_roots_size++] = roots[i];
+        }
+        
+    unique_roots_flag = calloc(unique_roots_size, sizeof(int));
+    
+    for (i = 0; i < unique_roots_size; i++)
+        for (j = 0; j < count; j++)
+            if (unique_roots[i] == roots[j])
+                unique_roots_flag[i] = 1;
+                
+    for (i = 0; i < unique_roots_size; i++)
+        if (unique_roots_flag[i])
+            components += 1;
+            
+    return components;
+}
+
 int main() {
 	int v[] = {1, 2, 3, 4, 5, 6};
 	node_t **sets;
@@ -91,7 +126,9 @@ int main() {
 	fuse(sets[0], sets[4]);
 	fuse(sets[0], sets[3]);
 	
+	printf("\nCaminho entre 1 e 6:");
 	get_a_way(get_src_node(sets, 6, 6), 1);
 	
-	return 0;
+	printf("\nComponentes conexas: %d", connected_components(sets, 6));
+	return EXIT_SUCCESS;
 }
