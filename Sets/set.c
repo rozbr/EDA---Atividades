@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAXSIZE 10
-
 typedef struct NODE {
 	int info;
 	
